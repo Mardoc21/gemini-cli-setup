@@ -4,9 +4,16 @@
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
 [ -f "$HOME/.profile" ] && source "$HOME/.profile"
-# A chave deve estar no ~/.bashrc ou ~/.profile
+# Carregar chaves do arquivo .env local
+ENV_FILE="$HOME/gemini-cli-setup/.env"
+if [ -f "$ENV_FILE" ]; then
+  export $(grep -v '^#' "$ENV_FILE" | xargs)
+fi
+
 if [ -z "$GEMINI_API_KEY" ]; then
-  echo "ERRO: GEMINI_API_KEY nao definida. Adicione ao ~/.bashrc"
+  echo "ERRO: GEMINI_API_KEY nao definida."
+  echo "Crie o arquivo: ~/gemini-cli-setup/.env"
+  echo "Com o conteudo: GEMINI_API_KEY=sua_chave_aqui"
   exit 1
 fi
 
